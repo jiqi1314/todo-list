@@ -134,6 +134,7 @@ ul {
 .reset-button:hover {
     background-color: #ff5252;
 }
+<<<<<<< HEAD
 
 .filter-buttons {
     margin: 1rem 0;
@@ -160,3 +161,5 @@ ul {
     color: white;
     border-color: #4CAF50;
 }
+=======
+>>>>>>> 8bb1196 (Initial commit: Todo List 應用)

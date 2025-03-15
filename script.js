@@ -18,6 +18,69 @@ function renderTodos() {
         
         li.innerHTML = `
             <input type="checkbox" ${todo.completed ? 'checked' : ''} 
+<<<<<<< HEAD
+=======
+                   onchange="toggleTodo(${todos.indexOf(todo)})">
+            <div class="todo-content">
+                <span class="todo-text">${todo.text}</span>
+                <div class="todo-time">
+                    <small>建立: ${todo.createdAt}</small>
+                    ${todo.completedAt ? `<small>完成: ${todo.completedAt}</small>` : ''}
+                </div>
+                ${todo.completed ? `
+                    <div class="todo-remark">
+                        <input type="text" 
+                               class="remark-input" 
+                               placeholder="添加備註..." 
+                               value="${todo.remark}"
+                               onchange="updateRemark(${todos.indexOf(todo)}, this.value)">
+                    </div>
+                ` : ''}
+            </div>
+        `;
+        
+        todoList.appendChild(li);
+    });
+    
+    saveTodos();
+}
+
+// 添加新的待辦事項
+function addTodo() {
+    const input = document.getElementById('todoInput');
+    const text = input.value.trim();
+    
+    if (text) {
+        todos.push({
+            text: text,
+            completed: false,
+            createdAt: new Date().toLocaleString(),
+            completedAt: null,
+            remark: ''
+        });
+        input.value = '';
+        renderTodos();
+    }
+}
+
+// 移除重複的 renderTodos 函數，保留並修改這一個
+function renderTodos() {
+    const todoList = document.getElementById('todoList');
+    todoList.innerHTML = '';
+    
+    // 對待辦事項進行排序，未完成的在前
+    const sortedTodos = [...todos].sort((a, b) => {
+        if (a.completed === b.completed) return 0;
+        return a.completed ? 1 : -1;
+    });
+    
+    sortedTodos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+        
+        li.innerHTML = `
+            <input type="checkbox" ${todo.completed ? 'checked' : ''} 
+>>>>>>> 8bb1196 (Initial commit: Todo List 應用)
                    onchange="toggleTodo(${index})">
             <div class="todo-content">
                 <span class="todo-text">${todo.text}</span>
@@ -43,6 +106,7 @@ function renderTodos() {
     saveTodos();
 }
 
+<<<<<<< HEAD
 // 添加新的待辦事項
 // 添加 Socket.IO 連接
 // 確保 Socket.IO 連接建立
@@ -77,43 +141,28 @@ function addTodo() {
 }
 
 // 確保正確接收服務器更新
-// 確保正確設置 Socket.IO 連接
-const socket = io();
-
-// 從服務器接收初始數據
-socket.on('init-todos', (serverTodos) => {
-    console.log('Received initial todos:', serverTodos);
-    todos = serverTodos;
-    renderTodos();
-});
-
-// 接收服務器更新
 socket.on('todos-updated', (serverTodos) => {
     console.log('Received updated todos:', serverTodos);
     todos = serverTodos;
     renderTodos();
 });
 
-// 修改 toggleTodo 函數確保正確發送狀態更新
+// 修改 toggleTodo 函數
 function toggleTodo(index) {
     const completed = !todos[index].completed;
-    console.log('Toggling todo at index:', index, 'to completed:', completed);
     socket.emit('toggle-todo', {
         index: index,
         completed: completed,
         completedAt: completed ? new Date().toLocaleString() : null
     });
-    // 不要在這裡直接修改本地數據，等待服務器回應
 }
 
 // 修改 updateRemark 函數
 function updateRemark(index, value) {
-    console.log('Updating remark at index:', index);
     socket.emit('update-remark', {
         index: index,
         remark: value
     });
-    // 不要在這裡直接修改本地數據，等待服務器回應
 }
 
 // 修改重置功能
@@ -121,8 +170,7 @@ document.getElementById('resetButton').addEventListener('click', function() {
     const password = prompt('請輸入重置密碼：');
     
     if (password === 'yeahyeah') {
-        console.log('Sending reset request');
-        socket.emit('reset-todos');
+        socket.emit('reset-todos');  // 發送重置請求到服務器
     } else if (password !== null) {
         alert('密碼錯誤！');
     }
@@ -200,6 +248,8 @@ function filterTodos(status) {
     renderTodos();
 }
 
+=======
+>>>>>>> 8bb1196 (Initial commit: Todo List 應用)
 function updateRemark(index, value) {
     todos[index].remark = value;
     saveTodos();
