@@ -83,7 +83,7 @@ socket.on('todos-updated', (serverTodos) => {
     renderTodos();
 });
 
-// 修改 toggleTodo 函數
+// 修改 toggleTodo 函數 - 移除本地更新邏輯
 function toggleTodo(index) {
     const completed = !todos[index].completed;
     socket.emit('toggle-todo', {
@@ -91,16 +91,16 @@ function toggleTodo(index) {
         completed: completed,
         completedAt: completed ? new Date().toLocaleString() : null
     });
-    // 完全依賴服務器更新，不在本地修改
+    // 不再進行本地更新，完全依賴服務器回應
 }
 
-// 修改 updateRemark 函數
+// 修改 updateRemark 函數 - 移除本地更新邏輯
 function updateRemark(index, value) {
     socket.emit('update-remark', {
         index: index,
         remark: value
     });
-    // 完全依賴服務器更新，不在本地修改
+    // 不再進行本地更新，完全依賴服務器回應
 }
 
 // 修改重置功能
@@ -200,30 +200,19 @@ function filterTodos(status) {
     renderTodos();
 }
 
-function updateRemark(index, value) {
-    todos[index].remark = value;
-    saveTodos();
-}
-
-// 修改本地的 toggleTodo 和 updateRemark 函數，移除本地更新邏輯
+// 移除本地 toggleTodo 實現
 // 切換待辦事項狀態
-function toggleTodo(index) {
-    // 移除本地更新邏輯，完全依賴 socket 事件
-    const completed = !todos[index].completed;
-    socket.emit('toggle-todo', {
-        index: index,
-        completed: completed,
-        completedAt: completed ? new Date().toLocaleString() : null
-    });
-}
+// function toggleTodo(index) {
+//     todos[index].completed = !todos[index].completed;
+//     todos[index].completedAt = todos[index].completed ? new Date().toLocaleString() : null;
+//     renderTodos();
+// }
 
-function updateRemark(index, value) {
-    // 移除本地更新邏輯，完全依賴 socket 事件
-    socket.emit('update-remark', {
-        index: index,
-        remark: value
-    });
-}
+// 移除本地 updateRemark 實現
+// function updateRemark(index, value) {
+//     todos[index].remark = value;
+//     saveTodos();
+// }
 
 // 刪除待辦事項
 function deleteTodo(index) {
@@ -232,9 +221,9 @@ function deleteTodo(index) {
 }
 
 // 保存到本地存儲
+// 修改 saveTodos 函數 - 完全移除本地存儲
 function saveTodos() {
-    // localStorage.setItem('todos', JSON.stringify(todos));
-    // 不再使用本地存儲
+    // 不再使用本地存儲，完全依賴服務器
 }
 
 // 監聽輸入框的回車事件
@@ -255,7 +244,7 @@ document.getElementById('resetButton').addEventListener('click', function() {
     }
 });
 
-// 移除重置功能相關代碼
+// 移除以下所有重複的重置功能代碼
 // document.getElementById('resetButton').addEventListener('click', function() {
 //     const password = prompt('請輸入重置密碼：');
 //     
