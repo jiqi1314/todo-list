@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.todo-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+ul {
+    list-style: none;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.todo-item.completed {
+    background-color: #f8f8f8;
+}
+
+.todo-item.completed span {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.todo-text {
+    flex: 1;
+    margin: 0 10px;
+}
+
+.todo-content {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.todo-remark {
+    font-style: italic;
+    color: #666;
+    font-size: 14px;
+    margin-top: 4px;
+    padding: 4px 0;
+}
+
+.remark-input {
+    width: 100%;
+    padding: 4px 8px;
+    margin-top: 4px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.todo-time {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.todo-time small {
+    margin-right: 15px;
+}
+
+.delete-btn {
+    background-color: #ff4444;
+    padding: 4px 8px;
+}
+
+.delete-btn:hover {
+    background-color: #cc0000;
+}
+
+.reset-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.reset-button:hover {
+    background-color: #ff5252;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共享待辦事項清單</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>待辦事項清單</h1>
+        <div class="todo-input">
+            <input type="text" id="todoInput" placeholder="添加新的待辦事項">
+            <button onclick="addTodo()">添加</button>
+        </div>
+        <ul id="todoList"></ul>
+        <button id="resetButton" class="reset-button">重置清單</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
