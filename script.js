@@ -18,69 +18,6 @@ function renderTodos() {
         
         li.innerHTML = `
             <input type="checkbox" ${todo.completed ? 'checked' : ''} 
-<<<<<<< HEAD
-=======
-                   onchange="toggleTodo(${todos.indexOf(todo)})">
-            <div class="todo-content">
-                <span class="todo-text">${todo.text}</span>
-                <div class="todo-time">
-                    <small>建立: ${todo.createdAt}</small>
-                    ${todo.completedAt ? `<small>完成: ${todo.completedAt}</small>` : ''}
-                </div>
-                ${todo.completed ? `
-                    <div class="todo-remark">
-                        <input type="text" 
-                               class="remark-input" 
-                               placeholder="添加備註..." 
-                               value="${todo.remark}"
-                               onchange="updateRemark(${todos.indexOf(todo)}, this.value)">
-                    </div>
-                ` : ''}
-            </div>
-        `;
-        
-        todoList.appendChild(li);
-    });
-    
-    saveTodos();
-}
-
-// 添加新的待辦事項
-function addTodo() {
-    const input = document.getElementById('todoInput');
-    const text = input.value.trim();
-    
-    if (text) {
-        todos.push({
-            text: text,
-            completed: false,
-            createdAt: new Date().toLocaleString(),
-            completedAt: null,
-            remark: ''
-        });
-        input.value = '';
-        renderTodos();
-    }
-}
-
-// 移除重複的 renderTodos 函數，保留並修改這一個
-function renderTodos() {
-    const todoList = document.getElementById('todoList');
-    todoList.innerHTML = '';
-    
-    // 對待辦事項進行排序，未完成的在前
-    const sortedTodos = [...todos].sort((a, b) => {
-        if (a.completed === b.completed) return 0;
-        return a.completed ? 1 : -1;
-    });
-    
-    sortedTodos.forEach((todo, index) => {
-        const li = document.createElement('li');
-        li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
-        
-        li.innerHTML = `
-            <input type="checkbox" ${todo.completed ? 'checked' : ''} 
->>>>>>> 8bb1196 (Initial commit: Todo List 應用)
                    onchange="toggleTodo(${index})">
             <div class="todo-content">
                 <span class="todo-text">${todo.text}</span>
@@ -106,7 +43,6 @@ function renderTodos() {
     saveTodos();
 }
 
-<<<<<<< HEAD
 // 添加新的待辦事項
 // 添加 Socket.IO 連接
 // 確保 Socket.IO 連接建立
@@ -155,6 +91,7 @@ function toggleTodo(index) {
         completed: completed,
         completedAt: completed ? new Date().toLocaleString() : null
     });
+    // 完全依賴服務器更新，不在本地修改
 }
 
 // 修改 updateRemark 函數
@@ -163,27 +100,42 @@ function updateRemark(index, value) {
         index: index,
         remark: value
     });
+    // 完全依賴服務器更新，不在本地修改
 }
 
 // 修改重置功能
 document.getElementById('resetButton').addEventListener('click', function() {
     const password = prompt('請輸入重置密碼：');
     
-    if (password === 'yeahyeah') {
+    if (password === 'helloworld') {
         socket.emit('reset-todos');  // 發送重置請求到服務器
+        alert('待辦事項已重置！');
     } else if (password !== null) {
         alert('密碼錯誤！');
     }
 });
 
 // 添加重置成功的監聽器
+// 合併兩個 todos-updated 監聽器為一個
 socket.on('todos-updated', (serverTodos) => {
+    console.log('Received updated todos:', serverTodos);
     todos = serverTodos;
     renderTodos();
+    
+    // 只在列表為空時顯示重置成功提示
     if (todos.length === 0) {
         alert('待辦事項已重置！');
     }
 });
+
+// 移除第二個重複的監聽器
+// socket.on('todos-updated', (serverTodos) => {
+//     todos = serverTodos;
+//     renderTodos();
+//     if (todos.length === 0) {
+//         alert('待辦事項已重置！');
+//     }
+// });
 
 // 添加篩選狀態變量
 let filterStatus = 'all'; // 'all', 'active', 'completed'
@@ -248,18 +200,29 @@ function filterTodos(status) {
     renderTodos();
 }
 
-=======
->>>>>>> 8bb1196 (Initial commit: Todo List 應用)
 function updateRemark(index, value) {
     todos[index].remark = value;
     saveTodos();
 }
 
+// 修改本地的 toggleTodo 和 updateRemark 函數，移除本地更新邏輯
 // 切換待辦事項狀態
 function toggleTodo(index) {
-    todos[index].completed = !todos[index].completed;
-    todos[index].completedAt = todos[index].completed ? new Date().toLocaleString() : null;
-    renderTodos();
+    // 移除本地更新邏輯，完全依賴 socket 事件
+    const completed = !todos[index].completed;
+    socket.emit('toggle-todo', {
+        index: index,
+        completed: completed,
+        completedAt: completed ? new Date().toLocaleString() : null
+    });
+}
+
+function updateRemark(index, value) {
+    // 移除本地更新邏輯，完全依賴 socket 事件
+    socket.emit('update-remark', {
+        index: index,
+        remark: value
+    });
 }
 
 // 刪除待辦事項
@@ -270,7 +233,8 @@ function deleteTodo(index) {
 
 // 保存到本地存儲
 function saveTodos() {
-    localStorage.setItem('todos', JSON.stringify(todos));
+    // localStorage.setItem('todos', JSON.stringify(todos));
+    // 不再使用本地存儲
 }
 
 // 監聽輸入框的回車事件
@@ -280,17 +244,40 @@ document.getElementById('todoInput').addEventListener('keypress', function(e) {
     }
 });
 // 添加重置功能
+// 修改重置功能 - 保留這個使用 socket 的版本
 document.getElementById('resetButton').addEventListener('click', function() {
     const password = prompt('請輸入重置密碼：');
     
-    if (password === 'yeahyeah') {
-        todos = [];
-        renderTodos();
-        alert('待辦事項已重置！');
+    if (password === 'helloworld') {
+        socket.emit('reset-todos');  // 發送重置請求到服務器
     } else if (password !== null) {
         alert('密碼錯誤！');
     }
 });
+
+// 移除重置功能相關代碼
+// document.getElementById('resetButton').addEventListener('click', function() {
+//     const password = prompt('請輸入重置密碼：');
+//     
+//     if (password === 'yeahyeah') {
+//         socket.emit('reset-todos');  // 發送重置請求到服務器
+//     } else if (password !== null) {
+//         alert('密碼錯誤！');
+//     }
+// });
+
+// 移除這個重複的重置功能
+// document.getElementById('resetButton').addEventListener('click', function() {
+//     const password = prompt('請輸入重置密碼：');
+//     
+//     if (password === 'yeahyeah') {
+//         todos = [];
+//         renderTodos();
+//         alert('待辦事項已重置！');
+//     } else if (password !== null) {
+//         alert('密碼錯誤！');
+//     }
+// });
 
 // 初始化渲染
 renderTodos();

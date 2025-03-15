@@ -134,7 +134,23 @@ ul {
 .reset-button:hover {
     background-color: #ff5252;
 }
-<<<<<<< HEAD
+
+.reset-button-left {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.reset-button-left:hover {
+    background-color: #ff5252;
+}
 
 .filter-buttons {
     margin: 1rem 0;

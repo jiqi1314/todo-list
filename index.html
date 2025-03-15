@@ -13,22 +13,17 @@
             <input type="text" id="todoInput" placeholder="添加新的待辦事項">
             <button onclick="addTodo()">添加</button>
         </div>
-<<<<<<< HEAD
         <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all" onclick="filterTodos('all')">全部</button>
             <button class="filter-btn" data-filter="active" onclick="filterTodos('active')">未完成</button>
             <button class="filter-btn" data-filter="completed" onclick="filterTodos('completed')">已完成</button>
         </div>
         <ul id="todoList"></ul>
-        <button id="resetButton" class="reset-button">重置清單</button>
+        <!-- 添加左下角重置按鈕 -->
+        <button id="resetButton" class="reset-button-left">重置清單</button>
     </div>
     <!-- 在 script.js 之前添加 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.js"></script>
-=======
-        <ul id="todoList"></ul>
-        <button id="resetButton" class="reset-button">重置清單</button>
-    </div>
->>>>>>> 8bb1196 (Initial commit: Todo List 應用)
     <script src="script.js"></script>
 </body>
 </html>
