@@ -268,5 +268,12 @@ document.getElementById('resetButton').addEventListener('click', function() {
 //     }
 // });
 
+// 添加初始化數據的監聽器
+socket.on('init-todos', (serverTodos) => {
+    console.log('Received initial todos:', serverTodos);
+    todos = serverTodos;
+    renderTodos();
+});
+
 // 初始化渲染
 renderTodos();
