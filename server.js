@@ -94,8 +94,13 @@ io.on('connection', (socket) => {
     });
 });
 
-// Update PORT to use environment variable for Render
-const PORT = process.env.PORT || 3001;
+// 更新 PORT 設置
+const PORT = process.env.PORT || 10000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+
+console.log('Environment:', NODE_ENV);
+console.log('Port:', PORT);
+
 http.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT} in ${NODE_ENV} mode`);
 });
