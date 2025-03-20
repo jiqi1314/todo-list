@@ -1,5 +1,7 @@
 // 從本地存儲加載待辦事項
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
+// 移除 localStorage 相關代碼
+// let todos = JSON.parse(localStorage.getItem('todos')) || [];
+let todos = [];  // 改為簡單的數組初始化
 
 // 渲染待辦事項列表
 function renderTodos() {
@@ -221,9 +223,10 @@ function deleteTodo(index) {
 }
 
 // 保存到本地存儲
-// 修改 saveTodos 函數 - 完全移除本地存儲
+// 修改 saveTodos 函數
 function saveTodos() {
-    // 不再使用本地存儲，完全依賴服務器
+    // 不再使用 localStorage
+    // 因為我們現在完全依賴服務器端的數據存儲
 }
 
 // 監聽輸入框的回車事件

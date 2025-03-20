@@ -2,10 +2,33 @@ const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const fs = require('fs');
+const path = require('path');
+
+// 定義數據文件路徑
+const todosFilePath = path.join(__dirname, 'todos.json');
+
+// 從文件加載待辦事項
+let sharedTodos = [];
+try {
+    if (fs.existsSync(todosFilePath)) {
+        const data = fs.readFileSync(todosFilePath, 'utf8');
+        sharedTodos = JSON.parse(data);
+    }
+} catch (err) {
+    console.log('Starting with empty todos list:', err);
+}
+
+// 保存待辦事項到文件
+function saveTodos() {
+    try {
+        fs.writeFileSync(todosFilePath, JSON.stringify(sharedTodos), 'utf8');
+    } catch (err) {
+        console.error('Error saving todos:', err);
+    }
+}
 
 app.use(express.static(__dirname));
-
-let sharedTodos = [];
 
 io.on('connection', (socket) => {
     console.log('New client connected');
