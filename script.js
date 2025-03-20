@@ -48,7 +48,10 @@ function renderTodos() {
 // 添加新的待辦事項
 // 添加 Socket.IO 連接
 // 確保 Socket.IO 連接建立
-const socket = io();
+// Update Socket.IO connection to handle both local and production environments
+const socket = io(window.location.hostname === 'localhost' 
+    ? 'http://localhost:3001'
+    : window.location.origin);
 
 socket.on('connect', () => {
     console.log('Connected to server');

@@ -5,6 +5,14 @@ const io = require('socket.io')(http);
 const fs = require('fs');
 const path = require('path');
 
+// Serve static files from the current directory
+app.use(express.static(__dirname));
+
+// Add a specific route for the root path
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // 定義數據文件路徑
 const todosFilePath = path.join(__dirname, 'todos.json');
 
@@ -27,8 +35,6 @@ function saveTodos() {
         console.error('Error saving todos:', err);
     }
 }
-
-app.use(express.static(__dirname));
 
 io.on('connection', (socket) => {
     console.log('New client connected');
@@ -88,7 +94,8 @@ io.on('connection', (socket) => {
     });
 });
 
-const PORT = 3001;  // Change port to 3001 or any other available port
+// Update PORT to use environment variable for Render
+const PORT = process.env.PORT || 3001;
 http.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

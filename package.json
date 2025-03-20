@@ -1,17 +1,12 @@
 {
-  "name": "todo",
-  "version": "0.1.0",
-  "private": true,
+  "name": "todo-app",
+  "version": "1.0.0",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "main": "script.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2",
-    "socket.io": "^4.8.1"
-  },
-  "description": ""
+    "express": "^4.17.1",
+    "socket.io": "^4.5.1"
+  }
 }
