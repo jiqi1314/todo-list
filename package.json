@@ -2,7 +2,11 @@
   "name": "todo-app",
   "version": "1.0.0",
   "main": "server.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
+    "build": "echo 'No build step needed'",
     "start": "node server.js"
   },
   "dependencies": {
